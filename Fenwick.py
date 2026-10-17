@@ -37,14 +37,14 @@ class FenwickRange:
         return R
     
     def prefix(self, x):
-        return (self.query(self.T1, x) * (x + 1)) - self.query(self.T2, x)
+        return (self.q(self.T1, x) * (x + 1)) - self.q(self.T2, x)
     
     def update(self, l, r, delta):
-        self.update(self.T1, l, delta)
-        self.update(self.T1, r + 1, -delta)
+        self.u(self.T1, l, delta)
+        self.u(self.T1, r + 1, -delta)
 
-        self.update(self.T2, l, delta * l)
-        self.update(self.T2, r + 1, -delta * (r+1))
+        self.u(self.T2, l, delta * l)
+        self.u(self.T2, r + 1, -delta * (r+1))
 
     def query(self, l, r):
         return self.prefix(r) - self.prefix(l - 1)
