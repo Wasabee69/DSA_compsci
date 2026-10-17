@@ -22,13 +22,13 @@ class FenwickRange:
         self.T1 = [0] * (n+2)
         self.T2 = [0] * (n+2)
         self.n = n
-    def update(self, tree, i, delta):
+    def u(self, tree, i, delta):
         i += 1
         while i <= self.n+1:
             tree[i] += delta
             i += i & -i
 
-    def query(self, tree, i):
+    def q(self, tree, i):
         i += 1
         R = 0
         while i > 0:
@@ -39,13 +39,13 @@ class FenwickRange:
     def prefix(self, x):
         return (self.query(self.T1, x) * (x + 1)) - self.query(self.T2, x)
     
-    def range_update(self, l, r, delta):
+    def update(self, l, r, delta):
         self.update(self.T1, l, delta)
         self.update(self.T1, r + 1, -delta)
 
-        self.update(self.T2, l, delta * (l - 1))
-        self.update(self.T2, r + 1, -delta * r)
+        self.update(self.T2, l, delta * l)
+        self.update(self.T2, r + 1, -delta * (r+1))
 
-    def range_query(self, l, r):
+    def query(self, l, r):
         return self.prefix(r) - self.prefix(l - 1)
     
